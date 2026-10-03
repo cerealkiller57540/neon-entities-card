@@ -76,6 +76,188 @@ function _hexToTriplet(c) {
   return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)).join(',');
 }
 
+/* ── i18n FR/EN : la clé est la chaîne française (le français s'affiche tel quel) ── */
+let _lang = 'en';
+const _EN = {
+ "(vide)": "(empty)",
+ "+ Entité": "+ Entity",
+ "+ Séparateur": "+ Divider",
+ "ABSENT": "AWAY",
+ "ACTIF": "ACTIVE",
+ "ALTERATION": "TAMPER",
+ "ALTÉRÉ": "TAMPERED",
+ "Activer (fumée, fuite, gaz, problème, batterie)": "Enable (smoke, leak, gas, fault, battery)",
+ "Afficher en-tête": "Show header",
+ "Afficher le type d'entité": "Show entity type",
+ "Afficher pied": "Show footer",
+ "Alerte si <": "Alert if <",
+ "Alerte si >": "Alert if >",
+ "Alerte si état": "Alert if state",
+ "Alignement": "Alignment",
+ "Animation d'entrée": "Entry animation",
+ "Apparence": "Appearance",
+ "BATTERIE": "BATTERY",
+ "BRANCHÉ": "PLUGGED",
+ "CALME": "STILL",
+ "CAPTEUR": "SENSOR",
+ "CHAUFFE": "HEATING",
+ "CONNECTÉ": "ONLINE",
+ "CONNEXION": "CONNECTIVITY",
+ "COURANT": "CURRENT",
+ "Centre (défaut)": "Centre (default)",
+ "Ces deux couleurs pilotent toute la card : fonds, bordures, boutons, valeurs, badges et jauges en héritent automatiquement.": "These two colours drive the whole card: backgrounds, borders, buttons, values, badges and gauges inherit them automatically.",
+ "Colonne de droite": "Right column",
+ "Couleur accent": "Accent colour",
+ "Couleur d'alerte": "Alert colour",
+ "Couleur de l'icône": "Icon colour",
+ "Couleur des icônes": "Icon colours",
+ "Couleur des noms": "Name colour",
+ "Couleur des valeurs": "Value colour",
+ "Couleur du glow": "Glow colour",
+ "Couleur primaire": "Primary colour",
+ "Couleur titre": "Title colour",
+ "Couleurs texte & icônes": "Text & icon colours",
+ "Descendre": "Move down",
+ "Droite": "Right",
+ "Durée d'entrée d'une ligne (s)": "Row entry duration (s)",
+ "DÉBRANCHÉ": "UNPLUGGED",
+ "DÉTECTÉ": "DETECTED",
+ "DÉVERR.": "UNLOCKED",
+ "Décimales": "Decimals",
+ "Décorréler les teintes RGB (avancé)": "Decouple RGB tints (advanced)",
+ "Dégradé — arrivée": "Gradient — end",
+ "Dégradé — départ": "Gradient — start",
+ "ENERGIE": "ENERGY",
+ "Effets avancés du titre": "Advanced title effects",
+ "En-tête": "Header",
+ "Entité *": "Entity *",
+ "Entités": "Entities",
+ "Entités et séparateurs dans l'ordre souhaité. Cliquer une ligne pour la déplier.": "Entities and dividers in the order you want. Click a row to expand it.",
+ "Espacement": "Letter spacing",
+ "FAIBLE": "LOW",
+ "FENETRE": "WINDOW",
+ "FERMETURE...": "CLOSING...",
+ "FERMÉ": "CLOSED",
+ "FUMEE": "SMOKE",
+ "FUMÉE": "SMOKE",
+ "Flash de la valeur au changement": "Flash value on change",
+ "Flou du fond (px)": "Background blur (px)",
+ "Fond de la card": "Card background",
+ "Gauche": "Left",
+ "Glissement (px)": "Slide (px)",
+ "Glow du titre": "Title glow",
+ "Glow valeurs & statuts": "Value & status glow",
+ "HORS LIGNE": "OFFLINE",
+ "HUMIDE": "WET",
+ "HUMIDITE": "HUMIDITY",
+ "Hériter du card-mod thème": "Inherit card-mod theme",
+ "INACTIF": "INACTIVE",
+ "INCONNU": "UNKNOWN",
+ "INDISPO": "N/A",
+ "Icône": "Icon",
+ "Icône (mdi)": "Icon (mdi)",
+ "Info secondaire": "Secondary info",
+ "Intensité du halo": "Glow intensity",
+ "Inutile dans le cas normal : les teintes ci-dessous sont déduites des deux couleurs ci-dessus. À ne remplir que pour donner aux fonds/bordures une teinte DIFFÉRENTE de la couleur principale.": "Not needed in the normal case: the tints below are derived from the two colours above. Only fill them in to give backgrounds/borders a tint DIFFERENT from the main colour.",
+ "Italique": "Italic",
+ "JOUR": "DAY",
+ "LECTEUR": "PLAYER",
+ "LIBRE": "CLEAR",
+ "LUMINOSITE": "ILLUMINANCE",
+ "LUMIÈRE": "LIGHT",
+ "Label (ligne 1)": "Label (line 1)",
+ "Largeur mini (px)": "Min width (px)",
+ "Lignes en cascade au chargement": "Cascade rows on load",
+ "MAISON · NEO ENTITIES CARD": "HOME · NEO ENTITIES CARD",
+ "MOUVEMENT": "MOTION",
+ "Majuscules": "Uppercase",
+ "Mode alerte": "Alert mode",
+ "Monter": "Move up",
+ "Mêmes réglages que la neon-markdown-card. Text-shadow ci-dessus, si renseigné, remplace le glow.": "Same settings as the neon-markdown-card. The text-shadow above, if set, replaces the glow.",
+ "NUIT": "NIGHT",
+ "Nom affiché": "Display name",
+ "Nom en blanc (sinon couleur d'alerte)": "White name (otherwise alert colour)",
+ "OCCUPATION": "OCCUPANCY",
+ "OCCUPÉ": "OCCUPIED",
+ "OUVERT": "OPEN",
+ "OUVERTURE": "OPENING",
+ "OUVERTURE...": "OPENING...",
+ "Optionnel. Le flou d'arrière-plan peut devenir opaque après navigation entre onglets (limite du backdrop-filter, corrigée par un F5) — laisser vide en cas de doute.": "Optional. The background blur can turn opaque after switching between tabs (backdrop-filter limitation, fixed by an F5) — leave empty if in doubt.",
+ "Options d'affichage": "Display options",
+ "PORTE": "DOOR",
+ "PORTE GARAGE": "GARAGE DOOR",
+ "PRECIPITATIONS": "PRECIPITATION",
+ "PRESSION": "PRESSURE",
+ "PRISE": "PLUG",
+ "PRÉSENCE": "PRESENT",
+ "PUISSANCE": "POWER",
+ "Pas mini entre 2 lignes (ms)": "Min gap between 2 rows (ms)",
+ "Pied de page": "Footer",
+ "Police": "Font",
+ "Pulse du liseré actif": "Active edge pulse",
+ "Période du pulse (s)": "Pulse period (s)",
+ "REFROID.": "COOLING",
+ "SEC": "DRY",
+ "Scintillement du titre": "Title flicker",
+ "Seuil batterie faible (%)": "Low battery threshold (%)",
+ "Statut associé": "Linked status",
+ "Supprimer": "Delete",
+ "TENSION": "VOLTAGE",
+ "Taille de l'icône": "Icon size",
+ "Taille du glow": "Glow size",
+ "Taille titre": "Title size",
+ "Teinte RGB accent": "Accent RGB tint",
+ "Teinte RGB primaire": "Primary RGB tint",
+ "Teinte du fond de ligne (0 à 0.3)": "Row background tint (0 to 0.3)",
+ "Texte": "Text",
+ "Thème & fond": "Theme & background",
+ "Titre": "Title",
+ "Titre en dégradé": "Gradient title",
+ "VALEUR": "VALUE",
+ "VEILLE": "IDLE",
+ "VENT": "WIND",
+ "VENTILATEUR": "FAN",
+ "VERR.": "LOCKED",
+ "VERROU": "LOCK",
+ "VITESSE": "SPEED",
+ "VOLET / STORE": "COVER",
+ "domain.objet": "domain.object",
+ "défaut : 1.2 × la taille du titre": "default: 1.2 × the title size",
+ "défaut : accent — ex #00fff9": "default: accent — e.g. #00fff9",
+ "défaut : couleur du titre": "default: title colour",
+ "défaut : couleur primaire — ex rgb(var(--rgb-lavande))": "default: primary colour — e.g. rgb(var(--rgb-lavande))",
+ "défaut : couleur primaire — ex var(--primary-color)": "default: primary colour — e.g. var(--primary-color)",
+ "défaut : texte primaire — ex rgb(var(--rgb-lavande))": "default: primary text — e.g. rgb(var(--rgb-lavande))",
+ "ex : rgba(4,16,24,0.82) - ignore si Heriter du card-mod theme": "e.g. rgba(4,16,24,0.82) - ignored if Inherit card-mod theme is on",
+ "ex: #00fff9 / var(--accent-color)": "e.g. #00fff9 / var(--accent-color)",
+ "ex: #6200EA / var(--primary-color)": "e.g. #6200EA / var(--primary-color)",
+ "ex: #FF2E4A (hex requis)": "e.g. #FF2E4A (hex required)",
+ "ex: #FF3366 / rgb(var(--rgb-lavande)) / var(--primary-color)": "e.g. #FF3366 / rgb(var(--rgb-lavande)) / var(--primary-color)",
+ "ex: 0,180,255": "e.g. 0,180,255",
+ "ex: 20": "e.g. 20",
+ "ex: 60": "e.g. 60",
+ "ex: Maison": "e.g. Home",
+ "on (ou: on, problem)": "on (or: on, problem)",
+ "parcourir": "browse",
+ "state ou vide": "state or empty",
+ "vide = pas de flou": "empty = no blur",
+ "Éditer": "Edit",
+ "Épaisseur": "Weight",
+ "Étalement total (ms)": "Total spread (ms)",
+ "— Séparateur —": "— Divider —",
+ "— thème HA —": "— HA theme —"
+};
+const _t = (fr) => {
+  if (_lang === 'fr' || fr == null || fr === '') return fr;
+  const k = String(fr).replace(/\s+/g, ' ').trim();
+  return _EN[k] ?? fr;
+};
+const _setLang = (h) => {
+  const l = /^fr/i.test(String(h?.locale?.language || h?.language || '')) ? 'fr' : 'en';
+  if (l === _lang) return false;
+  _lang = l; return true;
+};
+
 function binaryLabel(deviceClass, on) {
   const map = {
     door:         on ? 'OUVERT'       : 'FERMÉ',
@@ -94,7 +276,7 @@ function binaryLabel(deviceClass, on) {
     vibration:    on ? 'VIBRATION'    : 'CALME',
     tamper:       on ? 'ALTÉRÉ'       : 'OK',
   };
-  return map[deviceClass] ?? (on ? 'ACTIF' : 'INACTIF');
+  return _t(map[deviceClass] ?? (on ? 'ACTIF' : 'INACTIF'));
 }
 
 function stateLabel(state) {
@@ -104,7 +286,7 @@ function stateLabel(state) {
     heat:'CHAUFFE', cool:'REFROID.', auto:'AUTO', heat_cool:'AUTO',
     unavailable:'INDISPO', unknown:'INCONNU', 'above_horizon':'JOUR', 'below_horizon':'NUIT',
   };
-  return m[state] ?? state.toUpperCase();
+  return _t(m[state]) ?? state.toUpperCase();
 }
 
 // device_class de binary_sensor qui mettent la ligne en ALERTE quand 'on'.
@@ -188,8 +370,9 @@ class NeonEntitiesCard extends HTMLElement {
 
   set hass(hass) {
     this._hass = hass;
+    const _chg = _setLang(hass);   // langue changée : reconstruire (les libellés de build sont figés)
     // Rebuild si le shadowRoot a été vidé (ex: reconnexion après mode edit)
-    if (!this.shadowRoot.querySelector('ha-card')) {
+    if (_chg || !this.shadowRoot.querySelector('ha-card')) {
       this._build();
       return;
     }
@@ -887,7 +1070,7 @@ class NeonEntitiesCard extends HTMLElement {
       sensor:'CAPTEUR', number:'VALEUR', input_number:'VALEUR',
       climate:'CLIMATE', lock:'VERROU', fan:'VENTILATEUR', media_player:'LECTEUR',
     };
-    return m[domain] || domain.replace('_', ' ');
+    return _t(m[domain]) || domain.replace('_', ' ');
   }
 
   _buildControl(row, item, domain, sig) {
@@ -1137,7 +1320,7 @@ class NeonEntitiesCard extends HTMLElement {
             precipitation:'PRECIPITATIONS', uv_index:'UV',
           };
           const dc = st.attributes.device_class || '';
-          ml.textContent = dcMap[dc] || dc.replace('_',' ').toUpperCase() || 'CAPTEUR';
+          ml.textContent = _t(dcMap[dc]) || dc.replace('_',' ').toUpperCase() || _t('CAPTEUR');
         }
       }
 
@@ -1206,7 +1389,7 @@ class NeonEntitiesCard extends HTMLElement {
             plug:'PRISE', battery:'BATTERIE', tamper:'ALTERATION',
           };
           const dc = st.attributes.device_class || '';
-          ml.textContent = dcMap[dc] || dc.replace('_',' ').toUpperCase() || 'CAPTEUR';
+          ml.textContent = _t(dcMap[dc]) || dc.replace('_',' ').toUpperCase() || _t('CAPTEUR');
         }
         break;
       }
@@ -1432,7 +1615,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
     this._render(); this._lastSeen = h;                            // changement externe
   }
 
-  set hass(h) { this._hass = h; if (!this._built) this._render(); else this._fillDatalists(); }
+  set hass(h) { this._hass = h; if (_setLang(h) && this._built) this._render(); if (!this._built) this._render(); else this._fillDatalists(); }
   disconnectedCallback() { this.innerHTML = ''; this._built = false; }
 
   _hash(o) { try { return JSON.stringify(o); } catch { return String(Math.random()); } }
@@ -1475,7 +1658,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
   // Titre de section fixe (non repliable) — repère visuel plat, comme sur les autres cards néon.
   _section(t) {
     this._target = null; // les sections top-level reviennent s'ancrer directement sur `this`
-    const d = document.createElement('div'); d.className = 'sec'; d.textContent = t; this.appendChild(d); return d;
+    const d = document.createElement('div'); d.className = 'sec'; d.textContent = _t(t); this.appendChild(d); return d;
   }
   // Sous-groupe repliable (pattern neon-solar-production-card.js / neon-climate-card-webgl.js) —
   // ha-expansion-panel natif HA. buildFn() ré-ancre les helpers dessus via _target, puis restaure
@@ -1483,7 +1666,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
   _group(title, expanded, buildFn) {
     const panel = document.createElement('ha-expansion-panel');
     panel.outlined = true;
-    panel.header = title;
+    panel.header = _t(title);
     if (expanded) panel.expanded = true;
     (this._target || this).appendChild(panel);
     const prevTarget = this._target;
@@ -1492,11 +1675,11 @@ class NeonEntitiesCardEditor extends HTMLElement {
     this._target = prevTarget;
     return panel;
   }
-  _hint(t) { const d = document.createElement('div'); d.className = 'hint'; d.textContent = t; (this._target || this).appendChild(d); return d; }
+  _hint(t) { const d = document.createElement('div'); d.className = 'hint'; d.textContent = _t(t); (this._target || this).appendChild(d); return d; }
 
   _text(key, label, ph = '') {
     const w = this._row(label).wrap;
-    const inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = ph; inp.value = this._read(key) ?? '';
+    const inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = _t(ph); inp.value = this._read(key) ?? '';
     inp.addEventListener('change', () => this._set(key, inp.value || undefined));
     w.appendChild(inp); return inp;
   }
@@ -1507,7 +1690,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
   _color(key, label, cssDefault = null, ph = 'ex: #FF3366 / rgb(var(--rgb-lavande)) / var(--primary-color)') {
     const w = this._row(label).wrap;
     const box = document.createElement('div'); box.className = 'color-row';
-    const txt = document.createElement('input'); txt.type = 'text'; txt.placeholder = ph; txt.value = this._read(key) ?? '';
+    const txt = document.createElement('input'); txt.type = 'text'; txt.placeholder = _t(ph); txt.value = this._read(key) ?? '';
     const pick = document.createElement('input'); pick.type = 'color';
     const refresh = () => {
       const explicit = this._toHex(txt.value);
@@ -1529,7 +1712,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
   _rgbColor(key, label, cssDefault = null, ph = 'ex: 0,180,255') {
     const w = this._row(label).wrap;
     const box = document.createElement('div'); box.className = 'color-row';
-    const txt = document.createElement('input'); txt.type = 'text'; txt.placeholder = ph; txt.value = this._read(key) ?? '';
+    const txt = document.createElement('input'); txt.type = 'text'; txt.placeholder = _t(ph); txt.value = this._read(key) ?? '';
     const pick = document.createElement('input'); pick.type = 'color';
     // "12, 34, 56" -> "#0c2238" ; tout le reste (var(), vide, %) -> null
     const tripletToHex = (v) => {
@@ -1586,11 +1769,11 @@ class NeonEntitiesCardEditor extends HTMLElement {
   _select(key, label, options, emptyLabel = null) {
     const w = this._row(label).wrap;
     const sel = document.createElement('select');
-    if (emptyLabel !== null) { const o = document.createElement('option'); o.value = ''; o.textContent = emptyLabel; sel.appendChild(o); }
+    if (emptyLabel !== null) { const o = document.createElement('option'); o.value = ''; o.textContent = _t(emptyLabel); sel.appendChild(o); }
     options.forEach(opt => {
       // accepte une string nue (ex: NEON_FONTS) ou un tuple [valeur, libellé]
       const [v, lbl] = Array.isArray(opt) ? opt : [opt, opt];
-      const o = document.createElement('option'); o.value = v; o.textContent = lbl; sel.appendChild(o);
+      const o = document.createElement('option'); o.value = v; o.textContent = _t(lbl); sel.appendChild(o);
     });
     sel.value = this._read(key) ?? '';
     sel.addEventListener('change', () => this._set(key, sel.value || undefined));
@@ -1600,7 +1783,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
   _row(labelHtml, isHtml = false) {
     const row = document.createElement('div'); row.className = 'row';
     const lbl = document.createElement('label');
-    if (isHtml) lbl.innerHTML = labelHtml; else lbl.textContent = labelHtml;
+    if (isHtml) lbl.innerHTML = labelHtml; else lbl.textContent = _t(labelHtml);
     const wrap = document.createElement('div'); wrap.className = 'field-wrap';
     row.appendChild(lbl); row.appendChild(wrap); (this._target || this).appendChild(row);
     return { row, wrap };
@@ -1616,11 +1799,11 @@ class NeonEntitiesCardEditor extends HTMLElement {
   // ── Champs DANS un bloc entité (index → _setEnt) ─────────────────────────────
   _entField(parent, idx, field, label, value, { entity = false, ph = '' } = {}) {
     const row = document.createElement('div'); row.className = 'row';
-    const lbl = document.createElement('label'); lbl.textContent = label;
+    const lbl = document.createElement('label'); lbl.textContent = _t(label);
     const wrap = document.createElement('div'); wrap.className = 'field-wrap';
     const inp = document.createElement('input'); inp.type = 'text'; inp.value = value ?? '';
     if (entity) { inp.setAttribute('list', 'neon-ent-list'); inp.autocomplete = 'off'; }
-    inp.placeholder = ph;
+    inp.placeholder = _t(ph);
     inp.addEventListener('change', () => this._setEnt(idx, field, inp.value || undefined));
     wrap.appendChild(inp); row.appendChild(lbl); row.appendChild(wrap); parent.appendChild(row);
     return inp;
@@ -1629,7 +1812,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
   // Champ ICÔNE d'un bloc entité : input + lien MDI + preview live (clé indexée).
   _entIcon(parent, idx, value) {
     const row = document.createElement('div'); row.className = 'row';
-    const lbl = document.createElement('label'); lbl.innerHTML = `Icône — <a href="https://pictogrammers.com/library/mdi/" target="_blank" rel="noopener" class="mdi-link">↗</a>`;
+    const lbl = document.createElement('label'); lbl.innerHTML = `${_t('Icône')} — <a href="https://pictogrammers.com/library/mdi/" target="_blank" rel="noopener" class="mdi-link">↗</a>`;
     const wrap = document.createElement('div'); wrap.className = 'field-wrap';
     const box = document.createElement('div'); box.className = 'icon-row';
     const inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = 'mdi:home'; inp.value = value ?? '';
@@ -1794,20 +1977,20 @@ class NeonEntitiesCardEditor extends HTMLElement {
     this._section('Entités');
     this._hint("Entités et séparateurs dans l'ordre souhaité. Cliquer une ligne pour la déplier.");
     this._renderEntityBlocks();
-    const addEnt = document.createElement('button'); addEnt.className = 'add-btn'; addEnt.textContent = '+ Entité';
+    const addEnt = document.createElement('button'); addEnt.className = 'add-btn'; addEnt.textContent = _t('+ Entité');
     addEnt.addEventListener('click', () => {
       this._config.entities.push({ entity: '' });
       this._openIdx = this._config.entities.length - 1; // la nouvelle entrée s'ouvre directement
       this._dispatch(); this._render();
     });
-    const addDiv = document.createElement('button'); addDiv.className = 'add-btn'; addDiv.textContent = '+ Séparateur';
+    const addDiv = document.createElement('button'); addDiv.className = 'add-btn'; addDiv.textContent = _t('+ Séparateur');
     addDiv.addEventListener('click', () => { this._config.entities.push({ type: 'divider' }); this._dispatch(); this._render(); });
     (this._target || this).appendChild(addEnt); (this._target || this).appendChild(addDiv);
   }
 
   // Champ icône statique (header) — même rendu que _entIcon mais via _set.
   _icon(key, label) {
-    const w = this._row(`${label} — <a href="https://pictogrammers.com/library/mdi/" target="_blank" rel="noopener" class="mdi-link">parcourir ↗</a>`, true).wrap;
+    const w = this._row(`${_t(label)} — <a href="https://pictogrammers.com/library/mdi/" target="_blank" rel="noopener" class="mdi-link">${_t('parcourir')} ↗</a>`, true).wrap;
     const box = document.createElement('div'); box.className = 'icon-row';
     const inp = document.createElement('input'); inp.type = 'text'; inp.placeholder = 'mdi:home'; inp.value = this._read(key) ?? '';
     const prev = document.createElement('div'); prev.className = 'icon-preview';
@@ -1838,26 +2021,26 @@ class NeonEntitiesCardEditor extends HTMLElement {
       // --- ligne compacte : nom + réordonner + éditer + supprimer ---
       const row = document.createElement('div'); row.className = 'entity-row';
 
-      const up = document.createElement('button'); up.className = 'row-btn'; up.title = 'Monter'; up.innerHTML = '↑';
+      const up = document.createElement('button'); up.className = 'row-btn'; up.title = _t('Monter'); up.innerHTML = '↑';
       up.disabled = (i === 0);
       up.addEventListener('click', (e) => { e.stopPropagation(); moveEnt(i, -1); });
-      const down = document.createElement('button'); down.className = 'row-btn'; down.title = 'Descendre'; down.innerHTML = '↓';
+      const down = document.createElement('button'); down.className = 'row-btn'; down.title = _t('Descendre'); down.innerHTML = '↓';
       down.disabled = (i === ents.length - 1);
       down.addEventListener('click', (e) => { e.stopPropagation(); moveEnt(i, 1); });
 
       const label = document.createElement('span'); label.className = 'row-label';
       label.textContent = (item.type === 'divider')
-        ? '— Séparateur —'
-        : (item.name || this._hass?.states?.[item.entity]?.attributes?.friendly_name || item.entity || '(vide)');
+        ? _t('— Séparateur —')
+        : (item.name || this._hass?.states?.[item.entity]?.attributes?.friendly_name || item.entity || _t('(vide)'));
 
-      const del = document.createElement('button'); del.className = 'row-btn row-del-btn'; del.title = 'Supprimer';
+      const del = document.createElement('button'); del.className = 'row-btn row-del-btn'; del.title = _t('Supprimer');
       del.innerHTML = '<ha-icon icon="mdi:trash-can-outline" style="--mdc-icon-size:16px"></ha-icon>';
       del.addEventListener('click', (e) => { e.stopPropagation(); removeEnt(i); });
 
       row.appendChild(up); row.appendChild(down); row.appendChild(label);
 
       if (item.type !== 'divider') {
-        const edit = document.createElement('button'); edit.className = 'row-btn edit-btn'; edit.title = 'Éditer'; edit.innerHTML = '✎';
+        const edit = document.createElement('button'); edit.className = 'row-btn edit-btn'; edit.title = _t('Éditer'); edit.innerHTML = '✎';
         edit.addEventListener('click', (e) => { e.stopPropagation(); this._openIdx = (this._openIdx === i) ? null : i; this._render(); });
         row.appendChild(edit);
       }

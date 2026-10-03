@@ -17,7 +17,7 @@
 
 A drop-in replacement for the built-in entities card. Each row picks its control from the entity's domain: a neon toggle for switches, open / stop / close buttons and a position bar for covers, − / + steppers for climates and numbers, a state badge for binary sensors, a glowing value for sensors. The header uses the same neon title engine as [neon-markdown-card](https://github.com/cerealkiller57540/neon-markdown-card), so both cards sit side by side with matching titles.
 
-*Screenshot taken with made-up entities and the Neo Tokyo theme. State badges are in French for now (see FAQ).*
+*Screenshot taken with made-up entities and the Neo Tokyo theme. The screenshot shows the French interface.*
 
 ## ✨ Features
 
@@ -142,7 +142,7 @@ entities:
 
 **Why is my door sensor not red when it is open?** Only danger device classes (smoke, moisture, gas, carbon monoxide, safety, problem, battery, heat, cold) alert on their own. For anything else, add `alert_state: 'on'` to the row.
 
-**The state badges and the editor are in French.** Translation is on the way. Every option can also be set in YAML.
+**Which languages are supported?** English and French. The editor and the card texts follow your Home Assistant language: French if it is French, English otherwise. Reload the page after changing the language. Every option can also be set in YAML.
 
 **Which theme is in the screenshots?** Neo Tokyo, the author's own dark theme (not published). The card works with any theme.
 
