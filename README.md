@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎛️ Neon Entities Card
+<img src="https://raw.githubusercontent.com/cerealkiller57540/neon-entities-card/main/images/logo.png" alt="Neon Entities Card" width="480">
 
 **An entities card for Home Assistant with neon controls for switches, covers, climates, numbers and sensors, and rows that light up when something needs attention.**
 
