@@ -14,7 +14,7 @@
  * Colonne de droite alignée (ctrl_width / ctrl_align) ; mode alerte : ligne rouge pulsée
  *   (fumée, fuite, problème, batterie faible, ou alert_state / alert_below / alert_above)
  * Entrée en cascade des lignes au chargement, étalée selon le nombre de lignes
- * @version 1.18.1
+ * @version 1.18.2
  */
 
 console.log('neon-entities-card.js loaded!');
@@ -331,7 +331,7 @@ class NeonEntitiesCard extends HTMLElement {
       value_glow:      config.value_glow      ?? true,
       alerts:            config.alerts            ?? true,
       battery_threshold: _num(config.battery_threshold, 20),
-      // Defaults tuned by eye on a test bench
+      // Défauts
       ctrl_width:       _num(config.ctrl_width, 12),
       ctrl_align:       config.ctrl_align       || 'center',
       alert_color:      config.alert_color      || '#FF2E4A',
@@ -339,7 +339,7 @@ class NeonEntitiesCard extends HTMLElement {
       alert_glow:       _num(config.alert_glow, 1),
       alert_bg:         _num(config.alert_bg, 0.08),
       alert_name_white: config.alert_name_white ?? false,
-      // Entry cascade, tuned on a test bench
+      // Cascade d'entrée
       enter_anim:       config.enter_anim ?? true,
       enter_spread:     _num(config.enter_spread, 360),
       enter_min:        _num(config.enter_min, 50),
@@ -456,7 +456,7 @@ class NeonEntitiesCard extends HTMLElement {
       ? `filter:drop-shadow(0 0 ${Math.round(hdrGlowSize * 0.2)}px #fff) drop-shadow(0 0 ${Math.round(hdrGlowSize * 0.4)}px ${hdrGlowColor}) drop-shadow(0 0 ${Math.round(hdrGlowSize * 0.8)}px ${hdrGlowColor}) drop-shadow(0 0 ${hdrGlowSize}px ${hdrGlowColor});`
       : '';
 
-    // FIX fond opaque apres navigation entre onglets (2026-08-29) : backdrop-filter
+    // FIX fond opaque apres navigation entre onglets : backdrop-filter
     // etait applique INCONDITIONNELLEMENT ici. Or il ne floute que ce qui est
     // reellement peint DERRIERE la card ; apres une navigation SPA, HA recompose la
     // vue et le backdrop n'est plus peint sous la card -> Chrome ne rend plus que la
@@ -481,7 +481,7 @@ class NeonEntitiesCard extends HTMLElement {
       : `backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;`;
 
-    // use_theme_card : recette de neon-dual-gauge-card (25/09) — ha-card ne pose NI fond,
+    // use_theme_card : recette de neon-dual-gauge-card — ha-card ne pose NI fond,
     // NI bordure, NI ombre, NI backdrop-filter : tout vient du defaut HA + card-mod/theme.
     // Seule exception : bg_blur explicite dans la config.
     const cardBg = cfg.use_theme_card ? `
@@ -1576,7 +1576,7 @@ class NeonEntitiesCard extends HTMLElement {
     this._impulseTimers.forEach(t => clearTimeout(t));
     this._impulseTimers.clear();
     // Listeners GARDES : tous poses sur des elements internes (aucun sur window/document),
-    // donc sans fuite. Cycle de vie COPIE de neon-watering-card (25/09) : l'ancien rebuild
+    // donc sans fuite. Cycle de vie COPIE de neon-watering-card : l'ancien rebuild
     // complet au (re)branchement recreait le ha-card, card-mod devait s'y raccrocher ->
     // flou du theme present ou absent selon le chargement / le retour d'onglet.
   }
