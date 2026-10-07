@@ -1848,15 +1848,18 @@ class NeonEntitiesCardEditor extends HTMLElement {
   _css() {
     return `
       :host { display:block; padding:14px; font-family:var(--primary-font-family,Roboto,sans-serif); }
-      .sec { font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--primary-color);margin:16px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--divider-color); }
+      neon-entities-card-editor { --ned-label:color-mix(in srgb,var(--primary-text-color) 82%,transparent); --ned-dim:color-mix(in srgb,var(--primary-text-color) 60%,transparent);
+        --ned-accent:color-mix(in srgb,var(--primary-color) 55%,var(--primary-text-color)); --ned-line:color-mix(in srgb,var(--primary-color) 55%,transparent); }
+      neon-entities-card-editor ha-expansion-panel { --outline-color:var(--ned-line); --expansion-panel-summary-padding:0 12px; color:var(--primary-text-color); }
+      .sec { font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ned-accent);margin:16px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--ned-line); }
       .sec:first-child { margin-top:0; }
       ha-expansion-panel { display:block; margin:8px 0; --expansion-panel-content-padding:8px 12px 12px; }
       ha-expansion-panel .row:first-child { margin-top:2px; }
       .row { display:flex;align-items:center;gap:8px;margin-bottom:6px; }
-      .row label { flex:0 0 150px;font-size:12px;color:var(--secondary-text-color); }
-      .row label .mdi-link { color:var(--primary-color);font-size:9px;text-transform:none;letter-spacing:0; }
+      .row label { flex:0 0 150px;font-size:12px;color:var(--ned-label); }
+      .row label .mdi-link { color:var(--ned-accent);font-size:9px;text-transform:none;letter-spacing:0; }
       .field-wrap { flex:1;min-width:0;display:flex; }
-      input[type=text],select { flex:1;width:100%;padding:4px 8px;border:1px solid var(--divider-color);border-radius:4px;background:var(--card-background-color);color:var(--primary-text-color);font-size:12px;outline:none;box-sizing:border-box; }
+      input[type=text],select { flex:1;width:100%;padding:4px 8px;border:1px solid var(--ned-line);border-radius:4px;background:var(--card-background-color);color:var(--primary-text-color);font-size:12px;outline:none;box-sizing:border-box; }
       select { cursor:pointer; }
       input:focus,select:focus { box-shadow:0 0 0 1px var(--primary-color); }
       .color-row { display:flex;gap:8px;flex:1; }
@@ -1864,17 +1867,17 @@ class NeonEntitiesCardEditor extends HTMLElement {
       .color-row input[type=color] { width:36px;height:28px;flex:none;padding:0;border:none;background:none;border-radius:4px;cursor:pointer; }
       .icon-row { display:flex;gap:8px;flex:1;align-items:center; }
       .icon-row input { flex:1; }
-      .icon-preview { width:30px;height:28px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--divider-color);border-radius:4px;color:var(--primary-text-color); }
-      .hint { font-size:11px;color:var(--secondary-text-color);font-style:italic;margin:-2px 0 8px; }
-      .block { border:1px solid var(--divider-color);border-radius:8px;padding:10px 12px;margin-bottom:8px;position:relative; }
-      .block-title { font-size:11px;font-weight:700;text-transform:uppercase;color:var(--secondary-text-color);margin-bottom:8px; }
+      .icon-preview { width:30px;height:28px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--ned-line);border-radius:4px;color:var(--primary-text-color); }
+      .hint { font-size:11px;color:var(--ned-dim);font-style:italic;margin:-2px 0 8px; }
+      .block { border:1px solid var(--ned-line);border-radius:8px;padding:10px 12px;margin-bottom:8px;position:relative; }
+      .block-title { font-size:11px;font-weight:700;text-transform:uppercase;color:var(--ned-label);margin-bottom:8px; }
       .del-btn { position:absolute;top:8px;right:8px;background:none;border:none;color:var(--error-color,#e53935);cursor:pointer;font-size:18px;padding:0;line-height:1; }
       .add-btn { font-size:12px;padding:6px 12px;border:1px dashed var(--primary-color);border-radius:6px;cursor:pointer;background:none;color:var(--primary-color);margin-right:6px;margin-top:4px; }
-      .divider-block { border:1px dashed var(--divider-color);border-radius:6px;padding:6px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;color:var(--secondary-text-color);font-size:12px; }
-      .entity-row { display:flex;align-items:center;gap:4px;border:1px solid var(--divider-color);border-radius:6px;padding:4px 8px;margin-bottom:4px; }
-      .row-btn { display:inline-flex;align-items:center;justify-content:center;min-width:24px;min-height:24px;background:none;border:none;cursor:pointer;font-size:14px;line-height:1;padding:2px 6px;color:var(--secondary-text-color); }
+      .divider-block { border:1px dashed var(--ned-line);border-radius:6px;padding:6px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;color:var(--ned-label);font-size:12px; }
+      .entity-row { display:flex;align-items:center;gap:4px;border:1px solid var(--ned-line);border-radius:6px;padding:4px 8px;margin-bottom:4px; }
+      .row-btn { display:inline-flex;align-items:center;justify-content:center;min-width:24px;min-height:24px;background:none;border:none;cursor:pointer;font-size:14px;line-height:1;padding:2px 6px;color:var(--ned-label); }
       .row-btn:disabled { opacity:.25;cursor:default; }
-      .row-btn.edit-btn { color:var(--primary-color); }
+      .row-btn.edit-btn { color:var(--ned-accent); }
       .row-btn.row-del-btn { position:static;color:var(--error-color,#e53935);font-size:18px; }
       .row-btn ha-icon { display:inline-flex;--mdc-icon-size:16px; }
       .row-label { flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px; }
@@ -1895,88 +1898,6 @@ class NeonEntitiesCardEditor extends HTMLElement {
   // ║  SCHÉMA                                                          ║
   // ╚════════════════════════════════════════════════════════════════╝
   _schema() {
-    this._section('En-tête');
-    this._toggle(null, 'Afficher en-tête', true, 'header');
-    this._text('header.title', 'Titre', 'ex: Maison');
-    this._icon('header.icon', 'Icône (mdi)');
-    this._color('header.color', 'Couleur titre', 'rgba(var(--rgb-primary-text-color),0.85)', 'défaut : texte du thème — ex rgb(var(--rgb-lavande))');
-    this._text('header.title_size', 'Taille titre', 'clamp(7px,2.6cqi,11px)');
-    this._select('header.font', 'Police', NEON_FONTS, '— thème HA —');
-    this._toggle('header.uppercase', 'Majuscules', true);
-
-    this._group('Effets avancés du titre', false, () => {
-      this._text('header.font_weight', 'Épaisseur', '700');
-      this._text('header.letter_spacing', 'Espacement', 'clamp(1px, 0.5cqi, 3px)');
-      this._toggle('header.italic', 'Italique', false);
-      this._text('header.title_shadow', 'Text-shadow');
-      this._toggle('header.gradient', 'Titre en dégradé');
-      this._color('header.gradient_from', 'Dégradé — départ', 'var(--primary-color)');
-      this._color('header.gradient_to', 'Dégradé — arrivée', 'var(--accent-color)');
-      this._toggle('header.glow', 'Glow du titre');
-      this._text('header.glow_size', 'Taille du glow', '12');
-      this._color('header.glow_color', 'Couleur du glow', 'var(--primary-color)');
-      this._toggle('header.flicker', 'Scintillement du titre');
-      this._color('header.icon_color', "Couleur de l'icône", this._read('header.color') || 'rgba(var(--rgb-primary-text-color),0.85)', 'défaut : couleur du titre');
-      this._text('header.icon_size', "Taille de l'icône", 'défaut : 1.2 × la taille du titre');
-      this._hint('Mêmes réglages que la neon-markdown-card. Text-shadow ci-dessus, si renseigné, remplace le glow.');
-    });
-
-    this._section('Apparence');
-    this._group('Couleurs texte & icônes', false, () => {
-      this._color('name_color', 'Couleur des noms',     'rgba(var(--rgb-primary-text-color),0.75)', 'défaut : texte primaire — ex rgb(var(--rgb-lavande))');
-      this._color('value_color', 'Couleur des valeurs', 'rgba(var(--rgb-accent-color),0.75)',       'défaut : accent — ex #00fff9');
-      this._color('icon_color', 'Couleur des icônes',   'var(--primary-color)',                     'défaut : couleur primaire — ex var(--primary-color)');
-    });
-    this._group('Thème & fond', false, () => {
-      this._color('color_primary', 'Couleur primaire',  'var(--primary-color)',                     'ex: #6200EA / var(--primary-color)');
-      this._color('color_accent', 'Couleur accent',     'var(--accent-color)',                      'ex: #00fff9 / var(--accent-color)');
-      this._hint('Ces deux couleurs pilotent toute la card : fonds, bordures, boutons, valeurs, badges et jauges en héritent automatiquement.');
-      this._color('card_bg', 'Fond de la card',          'rgba(10,6,30,0.82)',                       'ex : rgba(4,16,24,0.82) - ignore si Heriter du card-mod theme');
-      this._text('bg_blur', 'Flou du fond (px)', 'vide = pas de flou');
-      this._hint('Optionnel. Le flou d\'arrière-plan peut devenir opaque après navigation entre onglets (limite du backdrop-filter, corrigée par un F5) — laisser vide en cas de doute.');
-
-      // Replié et en second : depuis la dérivation auto des triplets, ces champs ne
-      // servent QUE si on veut décorréler les rgba() de la couleur principale.
-      this._group('Décorréler les teintes RGB (avancé)', false, () => {
-        this._hint('Inutile dans le cas normal : les teintes ci-dessous sont déduites des deux couleurs ci-dessus. À ne remplir que pour donner aux fonds/bordures une teinte DIFFÉRENTE de la couleur principale.');
-        // Défaut passé en rgb(var(--…)) pour être RÉSOLVABLE par _resolveColor : le
-        // triplet nu stocké dans le YAML n'est pas une couleur CSS à lui seul.
-        this._rgbColor('rgb_primary', 'Teinte RGB primaire', 'rgb(var(--rgb-primary-color, 98,0,234))');
-        this._rgbColor('rgb_accent', 'Teinte RGB accent',    'rgb(var(--rgb-accent-color, 0,255,249))');
-      });
-    });
-    this._group('Options d\'affichage', false, () => {
-      this._toggle('use_theme_card', 'Hériter du card-mod thème');
-      this._toggle('show_label', "Afficher le type d'entité");
-      this._toggle('pulse_active', 'Pulse du liseré actif', true);
-      this._toggle('flash_on_change', 'Flash de la valeur au changement');
-      this._toggle('value_glow', 'Glow valeurs & statuts', true);
-    });
-    this._group('Colonne de droite', false, () => {
-      this._select('ctrl_align', 'Alignement', [['right', 'Droite'], ['left', 'Gauche']], 'Centre (défaut)');
-      this._text('ctrl_width', 'Largeur mini (px)', '12');
-    });
-    this._group('Mode alerte', false, () => {
-      this._toggle('alerts', 'Activer (fumée, fuite, gaz, problème, batterie)', true);
-      this._text('battery_threshold', 'Seuil batterie faible (%)', '20');
-      this._color('alert_color', "Couleur d'alerte", '#FF2E4A', 'ex: #FF2E4A (hex requis)');
-      this._text('alert_period', 'Période du pulse (s)', '2.8');
-      this._text('alert_glow', 'Intensité du halo', '1');
-      this._text('alert_bg', 'Teinte du fond de ligne (0 à 0.3)', '0.08');
-      this._toggle('alert_name_white', 'Nom en blanc (sinon couleur d\'alerte)');
-    });
-    this._group("Animation d'entrée", false, () => {
-      this._toggle('enter_anim', 'Lignes en cascade au chargement', true);
-      this._text('enter_spread', 'Étalement total (ms)', '360');
-      this._text('enter_min', 'Pas mini entre 2 lignes (ms)', '50');
-      this._text('enter_dur', "Durée d'entrée d'une ligne (s)", '0.38');
-      this._text('enter_dx', 'Glissement (px)', '10');
-    });
-
-    this._section('Pied de page');
-    this._toggle(null, 'Afficher pied', true, 'footer');
-    this._text('footer.text', 'Texte', 'MAISON · NEO ENTITIES CARD');
-
     this._section('Entités');
     this._hint("Entités et séparateurs dans l'ordre souhaité. Cliquer une ligne pour la déplier.");
     this._renderEntityBlocks();
@@ -1989,6 +1910,89 @@ class NeonEntitiesCardEditor extends HTMLElement {
     const addDiv = document.createElement('button'); addDiv.className = 'add-btn'; addDiv.textContent = _t('+ Séparateur');
     addDiv.addEventListener('click', () => { this._config.entities.push({ type: 'divider' }); this._dispatch(); this._render(); });
     (this._target || this).appendChild(addEnt); (this._target || this).appendChild(addDiv);
+
+    this._group('En-tête', false, () => {
+      this._toggle(null, 'Afficher en-tête', true, 'header');
+      this._text('header.title', 'Titre', 'ex: Maison');
+      this._icon('header.icon', 'Icône (mdi)');
+      this._color('header.color', 'Couleur titre', 'rgba(var(--rgb-primary-text-color),0.85)', 'défaut : texte du thème — ex rgb(var(--rgb-lavande))');
+      this._text('header.title_size', 'Taille titre', 'clamp(7px,2.6cqi,11px)');
+      this._select('header.font', 'Police', NEON_FONTS, '— thème HA —');
+      this._toggle('header.uppercase', 'Majuscules', true);
+
+      this._group('Effets avancés du titre', false, () => {
+        this._text('header.font_weight', 'Épaisseur', '700');
+        this._text('header.letter_spacing', 'Espacement', 'clamp(1px, 0.5cqi, 3px)');
+        this._toggle('header.italic', 'Italique', false);
+        this._text('header.title_shadow', 'Text-shadow');
+        this._toggle('header.gradient', 'Titre en dégradé');
+        this._color('header.gradient_from', 'Dégradé — départ', 'var(--primary-color)');
+        this._color('header.gradient_to', 'Dégradé — arrivée', 'var(--accent-color)');
+        this._toggle('header.glow', 'Glow du titre');
+        this._text('header.glow_size', 'Taille du glow', '12');
+        this._color('header.glow_color', 'Couleur du glow', 'var(--primary-color)');
+        this._toggle('header.flicker', 'Scintillement du titre');
+        this._color('header.icon_color', "Couleur de l'icône", this._read('header.color') || 'rgba(var(--rgb-primary-text-color),0.85)', 'défaut : couleur du titre');
+        this._text('header.icon_size', "Taille de l'icône", 'défaut : 1.2 × la taille du titre');
+        this._hint('Mêmes réglages que la neon-markdown-card. Text-shadow ci-dessus, si renseigné, remplace le glow.');
+      });
+    });
+    this._group('Apparence', false, () => {
+      this._group('Couleurs texte & icônes', false, () => {
+        this._color('name_color', 'Couleur des noms',     'rgba(var(--rgb-primary-text-color),0.75)', 'défaut : texte primaire — ex rgb(var(--rgb-lavande))');
+        this._color('value_color', 'Couleur des valeurs', 'rgba(var(--rgb-accent-color),0.75)',       'défaut : accent — ex #00fff9');
+        this._color('icon_color', 'Couleur des icônes',   'var(--primary-color)',                     'défaut : couleur primaire — ex var(--primary-color)');
+      });
+      this._group('Thème & fond', false, () => {
+        this._color('color_primary', 'Couleur primaire',  'var(--primary-color)',                     'ex: #6200EA / var(--primary-color)');
+        this._color('color_accent', 'Couleur accent',     'var(--accent-color)',                      'ex: #00fff9 / var(--accent-color)');
+        this._hint('Ces deux couleurs pilotent toute la card : fonds, bordures, boutons, valeurs, badges et jauges en héritent automatiquement.');
+        this._color('card_bg', 'Fond de la card',          'rgba(10,6,30,0.82)',                       'ex : rgba(4,16,24,0.82) - ignore si Heriter du card-mod theme');
+        this._text('bg_blur', 'Flou du fond (px)', 'vide = pas de flou');
+        this._hint('Optionnel. Le flou d\'arrière-plan peut devenir opaque après navigation entre onglets (limite du backdrop-filter, corrigée par un F5) — laisser vide en cas de doute.');
+
+        // Replié et en second : depuis la dérivation auto des triplets, ces champs ne
+        // servent QUE si on veut décorréler les rgba() de la couleur principale.
+        this._group('Décorréler les teintes RGB (avancé)', false, () => {
+          this._hint('Inutile dans le cas normal : les teintes ci-dessous sont déduites des deux couleurs ci-dessus. À ne remplir que pour donner aux fonds/bordures une teinte DIFFÉRENTE de la couleur principale.');
+          // Défaut passé en rgb(var(--…)) pour être RÉSOLVABLE par _resolveColor : le
+          // triplet nu stocké dans le YAML n'est pas une couleur CSS à lui seul.
+          this._rgbColor('rgb_primary', 'Teinte RGB primaire', 'rgb(var(--rgb-primary-color, 98,0,234))');
+          this._rgbColor('rgb_accent', 'Teinte RGB accent',    'rgb(var(--rgb-accent-color, 0,255,249))');
+        });
+      });
+      this._group('Options d\'affichage', false, () => {
+        this._toggle('use_theme_card', 'Hériter du card-mod thème');
+        this._toggle('show_label', "Afficher le type d'entité");
+        this._toggle('pulse_active', 'Pulse du liseré actif', true);
+        this._toggle('flash_on_change', 'Flash de la valeur au changement');
+        this._toggle('value_glow', 'Glow valeurs & statuts', true);
+      });
+      this._group('Colonne de droite', false, () => {
+        this._select('ctrl_align', 'Alignement', [['right', 'Droite'], ['left', 'Gauche']], 'Centre (défaut)');
+        this._text('ctrl_width', 'Largeur mini (px)', '12');
+      });
+      this._group('Mode alerte', false, () => {
+        this._toggle('alerts', 'Activer (fumée, fuite, gaz, problème, batterie)', true);
+        this._text('battery_threshold', 'Seuil batterie faible (%)', '20');
+        this._color('alert_color', "Couleur d'alerte", '#FF2E4A', 'ex: #FF2E4A (hex requis)');
+        this._text('alert_period', 'Période du pulse (s)', '2.8');
+        this._text('alert_glow', 'Intensité du halo', '1');
+        this._text('alert_bg', 'Teinte du fond de ligne (0 à 0.3)', '0.08');
+        this._toggle('alert_name_white', 'Nom en blanc (sinon couleur d\'alerte)');
+      });
+      this._group("Animation d'entrée", false, () => {
+        this._toggle('enter_anim', 'Lignes en cascade au chargement', true);
+        this._text('enter_spread', 'Étalement total (ms)', '360');
+        this._text('enter_min', 'Pas mini entre 2 lignes (ms)', '50');
+        this._text('enter_dur', "Durée d'entrée d'une ligne (s)", '0.38');
+        this._text('enter_dx', 'Glissement (px)', '10');
+      });
+    });
+    this._group('Pied de page', false, () => {
+      this._toggle(null, 'Afficher pied', true, 'footer');
+      this._text('footer.text', 'Texte', 'MAISON · NEO ENTITIES CARD');
+    });
   }
 
   // Champ icône statique (header) — même rendu que _entIcon mais via _set.
@@ -2091,7 +2095,7 @@ window.customCards.push({
   preview:     true,
 });
 
-console.info('%c NEON-ENTITIES-CARD %c v1.18.1 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
+console.info('%c NEON-ENTITIES-CARD %c v1.19.0 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
 
 console.info(
   '%c 📋 neon-entities-card v1.18.1 %c Neo Tokyo ',
