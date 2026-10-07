@@ -14,7 +14,7 @@
  * Colonne de droite alignée (ctrl_width / ctrl_align) ; mode alerte : ligne rouge pulsée
  *   (fumée, fuite, problème, batterie faible, ou alert_state / alert_below / alert_above)
  * Entrée en cascade des lignes au chargement, étalée selon le nombre de lignes
- * @version 1.17.0
+ * @version 1.18.1
  */
 
 console.log('neon-entities-card.js loaded!');
@@ -388,6 +388,9 @@ class NeonEntitiesCard extends HTMLElement {
     const colorPrimary = cfg.color_primary || 'var(--primary-color, #00E8FF)';
     const colorAccent  = cfg.color_accent  || 'var(--accent-color, #00fff9)';
     const titleColor  = hdr.color      || 'rgba(var(--rgb-primary-text-color),0.85)';
+    // title_size : un nombre nu ("20") = px ; clamp()/cqi/em passent tels quels
+    const hdrTitleSize = (hdr.title_size != null && /^\d*\.?\d+$/.test(String(hdr.title_size).trim()))
+      ? `${parseFloat(hdr.title_size)}px` : hdr.title_size;
     const nameColorOn  = cfg.name_color  || 'var(--primary-text-color)';
     const nameColorOff = cfg.name_color
       ? `color-mix(in srgb, ${cfg.name_color}, transparent 70%)`
@@ -436,7 +439,7 @@ class NeonEntitiesCard extends HTMLElement {
     const hdrIconColor = hdr.icon_color || titleColor;
     const hdrIconSize  = hdr.icon_size
       ? (/^[\d.]+$/.test(String(hdr.icon_size)) ? `${hdr.icon_size}px` : hdr.icon_size)
-      : (hdr.title_size ? `calc(${hdr.title_size} * 1.2)` : 'clamp(8px, 3.1cqi, 14px)');
+      : (hdrTitleSize ? `calc(${hdrTitleSize} * 1.2)` : 'clamp(8px, 3.1cqi, 14px)');
     const hdrFlick = hdr.flicker
       ? `animation:nec-flicker ${this._flickDur}s ease-in-out infinite ${this._flickOff}s;`
       : '';
@@ -567,7 +570,7 @@ class NeonEntitiesCard extends HTMLElement {
       .hdr-title {
         flex: 1 1 auto;
         font-family: ${titleFont};
-        font-size: ${hdr.title_size ? hdr.title_size : 'clamp(6px, 2.6cqi, 11px)'};
+        font-size: ${hdrTitleSize ? hdrTitleSize : 'clamp(6px, 2.6cqi, 11px)'};
         padding-left: 8px;
         white-space: normal;
         overflow: visible;
@@ -1896,7 +1899,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
     this._toggle(null, 'Afficher en-tête', true, 'header');
     this._text('header.title', 'Titre', 'ex: Maison');
     this._icon('header.icon', 'Icône (mdi)');
-    this._color('header.color', 'Couleur titre', 'var(--primary-color)', 'défaut : couleur primaire — ex rgb(var(--rgb-lavande))');
+    this._color('header.color', 'Couleur titre', 'rgba(var(--rgb-primary-text-color),0.85)', 'défaut : texte du thème — ex rgb(var(--rgb-lavande))');
     this._text('header.title_size', 'Taille titre', 'clamp(7px,2.6cqi,11px)');
     this._select('header.font', 'Police', NEON_FONTS, '— thème HA —');
     this._toggle('header.uppercase', 'Majuscules', true);
@@ -1913,7 +1916,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
       this._text('header.glow_size', 'Taille du glow', '12');
       this._color('header.glow_color', 'Couleur du glow', 'var(--primary-color)');
       this._toggle('header.flicker', 'Scintillement du titre');
-      this._color('header.icon_color', "Couleur de l'icône", null, 'défaut : couleur du titre');
+      this._color('header.icon_color', "Couleur de l'icône", this._read('header.color') || 'rgba(var(--rgb-primary-text-color),0.85)', 'défaut : couleur du titre');
       this._text('header.icon_size', "Taille de l'icône", 'défaut : 1.2 × la taille du titre');
       this._hint('Mêmes réglages que la neon-markdown-card. Text-shadow ci-dessus, si renseigné, remplace le glow.');
     });
@@ -2088,10 +2091,10 @@ window.customCards.push({
   preview:     true,
 });
 
-console.info('%c NEON-ENTITIES-CARD %c v1.17.0 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
+console.info('%c NEON-ENTITIES-CARD %c v1.18.1 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
 
 console.info(
-  '%c 📋 neon-entities-card v1.17.0 %c Neo Tokyo ',
+  '%c 📋 neon-entities-card v1.18.1 %c Neo Tokyo ',
   'background:#6200EA;color:#000;padding:2px 4px;border-radius:3px 0 0 3px;font-weight:bold;',
   'background:#040811;color:#BB86FC;padding:2px 4px;border-radius:0 3px 3px 0;'
 );
