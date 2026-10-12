@@ -14,7 +14,7 @@
  * Colonne de droite alignée (ctrl_width / ctrl_align) ; mode alerte : ligne rouge pulsée
  *   (fumée, fuite, problème, batterie faible, ou alert_state / alert_below / alert_above)
  * Entrée en cascade des lignes au chargement, étalée selon le nombre de lignes
- * @version 1.18.2
+ * @version 1.19.2
  */
 
 console.log('neon-entities-card.js loaded!');
@@ -363,6 +363,13 @@ class NeonEntitiesCard extends HTMLElement {
     };
   }
 
+  _haptic(t) { this.dispatchEvent(new CustomEvent('haptic', { detail: t, bubbles: true, composed: true })); }
+  // light au geste, failure si HA refuse (rejet relancé : les .catch existants restent servis)
+  _call(d, s, data) {
+    this._haptic('light');
+    return Promise.resolve(this._hass.callService(d, s, data)).catch(e => { this._haptic('failure'); throw e; });
+  }
+  getGridOptions() { return { columns: 12, min_columns: 6 }; }
   getCardSize() {
     const n = (this._config.entities || []).filter(e => e.type !== 'divider').length;
     return Math.ceil(n * 0.55) + 2;
@@ -754,6 +761,8 @@ class NeonEntitiesCard extends HTMLElement {
         display: flex; align-items: center; flex-shrink: 0;
         justify-content: var(--nec-ctrl-justify, flex-end);
         min-width: var(--nec-ctrl-w, 0px);
+        /* plafond relatif à la ligne : les capteurs texte longs dépassaient l'ancien 110px fixe */
+        max-width: 60%;
       }
 
       /* ── Status fusionné (status_entity) ── */
@@ -800,9 +809,8 @@ class NeonEntitiesCard extends HTMLElement {
         padding: 2px 7px; border-radius: 4px;
         background: rgba(var(--nec-cy),0.06);
         border: 1px solid rgba(var(--nec-cy),0.18);
-        flex-shrink: 0;
         letter-spacing: 0.8px;
-        max-width: 110px;
+        max-width: 100%; min-width: 0; flex-shrink: 1;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
       }
 
@@ -1103,7 +1111,7 @@ class NeonEntitiesCard extends HTMLElement {
             // Feedback visuel : toggle ON pendant la durée de l'impulsion
             tog.classList.remove('off');
             tog.classList.add('on', 'active');
-            this._hass.callService(svcDomain, 'turn_on', { entity_id: item.entity });
+            this._call(svcDomain, 'turn_on', { entity_id: item.entity });
             const t = setTimeout(() => {
               this._hass.callService(svcDomain, 'turn_off', { entity_id: item.entity });
               tog.classList.remove('on', 'active');
@@ -1113,7 +1121,7 @@ class NeonEntitiesCard extends HTMLElement {
             this._impulseTimers.add(t);
           } else {
             tog.classList.add('active');
-            this._hass.callService(svcDomain, st.state === 'on' ? 'turn_off' : 'turn_on', { entity_id: item.entity });
+            this._call(svcDomain, st.state === 'on' ? 'turn_off' : 'turn_on', { entity_id: item.entity });
             setTimeout(() => tog.classList.remove('active'), 200);
           }
         });
@@ -1201,7 +1209,7 @@ class NeonEntitiesCard extends HTMLElement {
           const delay = item.impulse_duration ?? 500;
           tog.classList.remove('off');
           tog.classList.add('on', 'active');
-          this._hass.callService('button', 'press', { entity_id: item.entity });
+          this._call('button', 'press', { entity_id: item.entity });
           const t = setTimeout(() => {
             tog.classList.remove('on', 'active');
             tog.classList.add('off');
@@ -1459,7 +1467,7 @@ class NeonEntitiesCard extends HTMLElement {
 
   _svc(domain, service, entityId) {
     if (!this._hass || !entityId) return;
-    this._hass.callService(domain, service, { entity_id: entityId });
+    this._call(domain, service, { entity_id: entityId });
   }
 
   // Ouvre la boîte de dialogue more-info native de HA pour l'entité donnée.
@@ -1540,6 +1548,7 @@ class NeonEntitiesCard extends HTMLElement {
     if (isNaN(base)) return;
     const val  = parseFloat(Math.min(max, Math.max(min, base + dir * step)).toFixed(dec));
     if (p) clearTimeout(p.timer);
+    this._haptic('selection');
     const e = { val, dom, sent: false, until: Date.now() + 3000 };
     e.timer = setTimeout(() => this._flushStep(entityId), 450);
     this._pend.set(entityId, e);
@@ -1555,9 +1564,11 @@ class NeonEntitiesCard extends HTMLElement {
     clearTimeout(p.timer);
     p.sent  = true;
     p.until = Date.now() + 5000;   // laisse à HA (PAC, cloud) le temps de répercuter
-    if (p.dom === 'climate') this._hass.callService('climate', 'set_temperature', { entity_id: entityId, temperature: p.val });
-    // domaine de l'entité : input_number.set_value ≠ number.set_value
-    else this._hass.callService(p.dom, 'set_value', { entity_id: entityId, value: p.val });
+    const r = p.dom === 'climate'
+      ? this._hass.callService('climate', 'set_temperature', { entity_id: entityId, temperature: p.val })
+      // domaine de l'entité : input_number.set_value ≠ number.set_value
+      : this._hass.callService(p.dom, 'set_value', { entity_id: entityId, value: p.val });
+    Promise.resolve(r).catch(() => this._haptic('failure'));
   }
 
   // true = garder l'affichage de la valeur visée (HA ne l'a pas encore rejointe).
@@ -2095,10 +2106,10 @@ window.customCards.push({
   preview:     true,
 });
 
-console.info('%c NEON-ENTITIES-CARD %c v1.19.0 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
+console.info('%c NEON-ENTITIES-CARD %c v1.19.2 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
 
 console.info(
-  '%c 📋 neon-entities-card v1.18.1 %c Neo Tokyo ',
+  '%c 📋 neon-entities-card v1.19.2 %c Neo Tokyo ',
   'background:#6200EA;color:#000;padding:2px 4px;border-radius:3px 0 0 3px;font-weight:bold;',
   'background:#040811;color:#BB86FC;padding:2px 4px;border-radius:0 3px 3px 0;'
 );
