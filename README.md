@@ -118,6 +118,7 @@ entities:
 | `uppercase` / `italic` | — | Text style |
 | `color` / `icon_color` / `icon_size` | theme | Colours and icon size |
 | `glow` / `glow_color` / `glow_size` | — / primary / `12` | Neon glow |
+| `icon_glow_size` | `glow_size` | Header icon glow radius, independent of the title glow — a larger value spreads the halo thinner and keeps thin icons crisp |
 | `title_shadow` | — | Raw `text-shadow`, replaces `glow` |
 | `gradient` / `gradient_from` / `gradient_to` | — | Two-colour gradient text |
 | `flicker` | `false` | Neon flicker |

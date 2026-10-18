@@ -14,7 +14,7 @@
  * Colonne de droite alignée (ctrl_width / ctrl_align) ; mode alerte : ligne rouge pulsée
  *   (fumée, fuite, problème, batterie faible, ou alert_state / alert_below / alert_above)
  * Entrée en cascade des lignes au chargement, étalée selon le nombre de lignes
- * @version 1.19.2
+ * @version 1.20.0
  */
 
 console.log('neon-entities-card.js loaded!');
@@ -205,6 +205,8 @@ const _EN = {
  "TENSION": "VOLTAGE",
  "Taille de l'icône": "Icon size",
  "Taille du glow": "Glow size",
+ "Glow de l'icône": "Icon glow",
+ "défaut : taille du glow du titre": "default: title glow size",
  "Taille titre": "Title size",
  "Teinte RGB accent": "Accent RGB tint",
  "Teinte RGB primaire": "Primary RGB tint",
@@ -459,8 +461,10 @@ class NeonEntitiesCard extends HTMLElement {
     // icone du header : MEME glow que le titre nmc — 4 couches de drop-shadow
     // (coeur blanc 0.2 + 3 halos 0.4/0.8/1.0×size), et RIEN si glow desactive
     // (nmc n'a pas de fallback permanent : net par defaut, glow seulement en opt-in).
+    // icon_glow_size : halo propre à l'icône (une icône fine se noie sous le halo du titre) ; vide = glow_size
+    const hdrIconGlowSize = parseFloat(hdr.icon_glow_size) || hdrGlowSize;
     const hdrIconGlow = hdr.glow
-      ? `filter:drop-shadow(0 0 ${Math.round(hdrGlowSize * 0.2)}px #fff) drop-shadow(0 0 ${Math.round(hdrGlowSize * 0.4)}px ${hdrGlowColor}) drop-shadow(0 0 ${Math.round(hdrGlowSize * 0.8)}px ${hdrGlowColor}) drop-shadow(0 0 ${hdrGlowSize}px ${hdrGlowColor});`
+      ? `filter:drop-shadow(0 0 ${Math.round(hdrIconGlowSize * 0.2)}px #fff) drop-shadow(0 0 ${Math.round(hdrIconGlowSize * 0.4)}px ${hdrGlowColor}) drop-shadow(0 0 ${Math.round(hdrIconGlowSize * 0.8)}px ${hdrGlowColor}) drop-shadow(0 0 ${hdrIconGlowSize}px ${hdrGlowColor});`
       : '';
 
     // FIX fond opaque apres navigation entre onglets : backdrop-filter
@@ -1945,6 +1949,7 @@ class NeonEntitiesCardEditor extends HTMLElement {
         this._toggle('header.flicker', 'Scintillement du titre');
         this._color('header.icon_color', "Couleur de l'icône", this._read('header.color') || 'rgba(var(--rgb-primary-text-color),0.85)', 'défaut : couleur du titre');
         this._text('header.icon_size', "Taille de l'icône", 'défaut : 1.2 × la taille du titre');
+        this._text('header.icon_glow_size', "Glow de l'icône", 'défaut : taille du glow du titre');
         this._hint('Mêmes réglages que la neon-markdown-card. Text-shadow ci-dessus, si renseigné, remplace le glow.');
       });
     });
@@ -2106,10 +2111,10 @@ window.customCards.push({
   preview:     true,
 });
 
-console.info('%c NEON-ENTITIES-CARD %c v1.19.2 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
+console.info('%c NEON-ENTITIES-CARD %c v1.20.0 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
 
 console.info(
-  '%c 📋 neon-entities-card v1.19.2 %c Neo Tokyo ',
+  '%c 📋 neon-entities-card v1.20.0 %c Neo Tokyo ',
   'background:#6200EA;color:#000;padding:2px 4px;border-radius:3px 0 0 3px;font-weight:bold;',
   'background:#040811;color:#BB86FC;padding:2px 4px;border-radius:0 3px 3px 0;'
 );
