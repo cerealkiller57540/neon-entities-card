@@ -2106,6 +2106,26 @@ class NeonEntitiesCardEditor extends HTMLElement {
 
 // ─── Registration ─────────────────────────────────────────────────────────────
 customElements.define('neon-entities-card-editor', NeonEntitiesCardEditor);
+// Une valeur de config interpolée dans un <style> ne doit pas pouvoir le refermer.
+function _necCfgSafe(v, path) {
+  if (typeof v === 'string') return v.replace(/<\/(style)/gi, '<\\/$1');
+  if (!v || typeof v !== 'object') return v;
+  const isArr = Array.isArray(v);
+  let out = v;
+  for (const k of Object.keys(v)) {
+    const p = isArr ? path : (path ? path + '.' + k : k);
+    const nv = _necCfgSafe(v[k], p);
+    if (nv !== v[k]) {
+      if (out === v) out = isArr ? v.slice() : { ...v };
+      out[k] = nv;
+    }
+  }
+  return out;
+}
+{
+  const _setCfg = NeonEntitiesCard.prototype.setConfig;
+  NeonEntitiesCard.prototype.setConfig = function (c) { return _setCfg.call(this, _necCfgSafe(c, '')); };
+}
 customElements.define('neon-entities-card',        NeonEntitiesCard);
 
 window.customCards = window.customCards || [];
@@ -2116,10 +2136,10 @@ window.customCards.push({
   preview:     true,
 });
 
-console.info('%c NEON-ENTITIES-CARD %c v1.20.1 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
+console.info('%c NEON-ENTITIES-CARD %c v1.20.2 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
 
 console.info(
-  '%c 📋 neon-entities-card v1.20.1 %c Neo Tokyo ',
+  '%c 📋 neon-entities-card v1.20.2 %c Neo Tokyo ',
   'background:#6200EA;color:#000;padding:2px 4px;border-radius:3px 0 0 3px;font-weight:bold;',
   'background:#040811;color:#BB86FC;padding:2px 4px;border-radius:0 3px 3px 0;'
 );
