@@ -14,7 +14,7 @@
  * Colonne de droite alignée (ctrl_width / ctrl_align) ; mode alerte : ligne rouge pulsée
  *   (fumée, fuite, problème, batterie faible, ou alert_state / alert_below / alert_above)
  * Entrée en cascade des lignes au chargement, étalée selon le nombre de lignes
- * @version 1.20.0
+ * @version 1.20.1
  */
 
 console.log('neon-entities-card.js loaded!');
@@ -297,6 +297,11 @@ function stateLabel(state) {
 const ALERT_BINARY_DC = new Set(['smoke', 'moisture', 'gas', 'carbon_monoxide', 'safety', 'problem', 'battery', 'heat', 'cold']);
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
+function _necEsc(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
 class NeonEntitiesCard extends HTMLElement {
   constructor() {
     super();
@@ -1005,8 +1010,8 @@ class NeonEntitiesCard extends HTMLElement {
     const title = hdr.title || '';
     return `
       <div class="hdr">
-        ${icon  ? `<div class="hdr-icon"><ha-icon icon="${icon}"></ha-icon></div>` : ''}
-        ${title ? `<span class="hdr-title">${title}</span>` : ''}
+        ${icon  ? `<div class="hdr-icon"><ha-icon icon="${_necEsc(icon)}"></ha-icon></div>` : ''}
+        ${title ? `<span class="hdr-title">${_necEsc(title)}</span>` : ''}
       </div>`;
   }
 
@@ -1052,10 +1057,10 @@ class NeonEntitiesCard extends HTMLElement {
         : '';
 
       row.innerHTML = `
-        <div class="ico"><ha-icon icon="${icon}"></ha-icon></div>
+        <div class="ico"><ha-icon icon="${_necEsc(icon)}"></ha-icon></div>
         <div class="meta">
-          <div class="meta-label">${label}</div>
-          <div class="meta-name">${name}</div>
+          <div class="meta-label">${_necEsc(label)}</div>
+          <div class="meta-name">${_necEsc(name)}</div>
           ${item.secondary_info === 'state' ? `<div class="state-label"></div>` : ''}
         </div>
         ${statusSlot}
@@ -2111,10 +2116,10 @@ window.customCards.push({
   preview:     true,
 });
 
-console.info('%c NEON-ENTITIES-CARD %c v1.20.0 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
+console.info('%c NEON-ENTITIES-CARD %c v1.20.1 ', 'color:#6200EA;font-weight:bold;background:#040816', 'color:#fff;background:#444');
 
 console.info(
-  '%c 📋 neon-entities-card v1.20.0 %c Neo Tokyo ',
+  '%c 📋 neon-entities-card v1.20.1 %c Neo Tokyo ',
   'background:#6200EA;color:#000;padding:2px 4px;border-radius:3px 0 0 3px;font-weight:bold;',
   'background:#040811;color:#BB86FC;padding:2px 4px;border-radius:0 3px 3px 0;'
 );
